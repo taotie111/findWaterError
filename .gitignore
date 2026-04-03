@@ -1,0 +1,38 @@
+# ============================================================
+# DINOv2 水体问题识别 - Git Ignore 配置
+# ============================================================
+
+# 数据集（~13.9 GB）
+data/
+
+# Excel 原始文件（~55 GB）
+excel/
+
+# 训练输出和模型权重（~1.2 GB）
+runs/
+
+# 模型文件
+*.pth
+*.pt
+*.ckpt
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 虚拟环境
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
