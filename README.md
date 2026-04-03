@@ -124,6 +124,135 @@ npm run dev
 
 ---
 
+## 🎯 训练指南
+
+### 方式 1：统一训练入口（最简单）
+
+```bash
+cd H:/code/01_image_center
+
+# 列出所有可用模型
+python src/scripts/train.py --list
+
+# 训练 YOLOv8（100 轮）
+python src/scripts/train.py --model yolov8 --epochs 100
+
+# 训练 YOLOv10
+python src/scripts/train.py --model yolov10
+
+# 训练 DINOv2
+python src/scripts/train.py --model dinov2
+```
+
+**支持参数**：
+```bash
+python src/scripts/train.py --model yolov8 \
+  --epochs 100 \
+  --data data/annotations/data.yaml \
+  --imgsz 640 \
+  --batch 16 \
+  --device 0
+```
+
+---
+
+### 方式 2：使用 YOLO 脚本
+
+```bash
+cd H:/code/01_image_center
+
+# 快速测试（示例数据，10 轮）
+python src/scripts/train_yolo.py --model yolov8n --epochs 10 --data sample_data/data.yaml
+
+# 完整训练（完整数据，100 轮）
+python src/scripts/train_yolo.py --model yolov8m --epochs 100 --data data/annotations/data.yaml
+
+# 自定义配置
+python src/scripts/train_yolo.py \
+  --model yolov8m \
+  --data data/annotations/data.yaml \
+  --epochs 100 \
+  --imgsz 640 \
+  --batch 16 \
+  --device 0 \
+  --project runs/detect \
+  --name custom_train
+```
+
+**支持参数**：
+```bash
+python src/scripts/train_yolo.py \
+  --model yolov8n/s/m/l/x        # 模型版本
+  --epochs 100                    # 训练轮数
+  --imgsz 640                     # 图像尺寸
+  --batch 16                      # 批次大小
+  --device 0                      # GPU 设备
+  --data data.yaml                # 数据集配置
+  --optimizer SGD/Adam/AdamW      # 优化器
+  --lr0 0.01                      # 初始学习率
+  --mosaic 1.0                    # mosaic 增强
+  --mixup 0.0                     # mixup 增强
+```
+
+---
+
+### 方式 3：使用 DINOv2 脚本
+
+```bash
+cd H:/code/01_image_center
+
+# 使用 Jupyter Notebook（推荐）
+# 打开 notebooks/dinov2_training_complete.ipynb
+# 逐格运行
+
+# 或使用 Python 脚本
+python src/scripts/train_dinov2.py \
+  --model dinov2-large \
+  --epochs 20 \
+  --data data/processed \
+  --batch-size 1 \
+  --accumulation 8
+```
+
+**支持参数**：
+```bash
+python src/scripts/train_dinov2.py \
+  --model dinov2-small/base/large   # 模型版本
+  --epochs 20                        # 训练轮数
+  --batch-size 1                     # 批次大小
+  --accumulation 8                   # 梯度累积
+  --lr 1e-5                          # 学习率
+  --frozen-layers 20                 # 冻结层数
+```
+
+---
+
+### 方式 4：使用 Ultralytics CLI
+
+```bash
+# YOLOv8 训练
+yolo task=detect mode=train model=yolov8m.pt data=data/annotations/data.yaml epochs=100
+
+# 自定义配置
+yolo task=detect mode=train \
+  model=yolov8m.pt \
+  data=data/annotations/data.yaml \
+  epochs=100 \
+  imgsz=640 \
+  batch=16 \
+  device=0 \
+  project=runs/detect \
+  name=custom_train
+
+# 验证
+yolo task=detect mode=val model=runs/detect/train/weights/best.pt data=data.yaml
+
+# 预测
+yolo task=detect mode=predict model=runs/detect/train/weights/best.pt source=data/images/test
+```
+
+---
+
 ## 📁 项目结构
 
 ```
@@ -160,18 +289,20 @@ findWaterError/
 │   ├── annotations/                # 标注配置
 │   └── README.md                   # 数据说明
 │
+├── 🐍 src/                          # 训练代码
+│   ├── scripts/
+│   │   ├── train.py                # 统一训练入口 ⭐
+│   │   ├── train_yolo.py           # YOLO 训练脚本
+│   │   ├── train_dinov2.py         # DINOv2 训练脚本
+│   │   ├── migrate_data.py         # 数据迁移
+│   │   └── ...
+│   └── ...
+│
 ├── 📝 configs/                      # 模型配置
 │   ├── dinov2_config.yaml
 │   ├── yolov8_config.yaml
 │   ├── yolov10_config.yaml
 │   └── yolo-se_config.yaml
-│
-├── 🐍 src/                          # 训练代码
-│   ├── scripts/
-│   │   ├── migrate_data.py         # 数据迁移
-│   │   ├── convert_labels.py       # 标注转换
-│   │   └── ...
-│   └── ...
 │
 ├── 📓 notebooks/                    # Jupyter Notebooks
 │   └── dinov2_training_complete.ipynb
@@ -181,73 +312,6 @@ findWaterError/
     ├── USAGE_GUIDE.md              # 使用指南
     ├── ANNOTATION_GUIDE.md         # 标注指南
     └── ...
-```
-
----
-
-## 🎯 训练指南
-
-### 方式 1：统一训练入口（推荐）
-
-```bash
-# 列出所有可用模型
-python src/scripts/train.py --list
-
-# 训练 YOLOv8（100 轮）
-python src/scripts/train.py --model yolov8 --epochs 100
-
-# 训练 YOLOv10
-python src/scripts/train.py --model yolov10
-
-# 训练 DINOv2
-python src/scripts/train.py --model dinov2
-```
-
-### 方式 2：使用 YOLO 脚本
-
-```bash
-# 快速测试（示例数据）
-python src/scripts/train_yolo.py --model yolov8n --epochs 10 --data sample_data/data.yaml
-
-# 完整训练（完整数据）
-python src/scripts/train_yolo.py --model yolov8m --epochs 100 --data data/annotations/data.yaml
-
-# 自定义配置
-python src/scripts/train_yolo.py \
-  --model yolov8m \
-  --data data/annotations/data.yaml \
-  --epochs 100 \
-  --imgsz 640 \
-  --batch 16
-```
-
-### 方式 3：使用 DINOv2 脚本
-
-```bash
-# 使用 Jupyter Notebook（推荐）
-# 打开 notebooks/dinov2_training_complete.ipynb
-# 逐格运行
-
-# 或使用 Python 脚本
-python src/scripts/train_dinov2.py --epochs 20 --data data/processed
-```
-
-### 方式 4：使用 Ultralytics CLI
-
-```bash
-# YOLOv8 训练
-yolo task=detect mode=train model=yolov8m.pt data=data/annotations/data.yaml epochs=100
-
-# 自定义配置
-yolo task=detect mode=train \
-  model=yolov8m.pt \
-  data=data/annotations/data.yaml \
-  epochs=100 \
-  imgsz=640 \
-  batch=16 \
-  device=0 \
-  project=runs/detect \
-  name=custom_train
 ```
 
 ---
@@ -330,6 +394,17 @@ yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=10
 # 3. 查看结果
 # 打开 runs/detect/train/results.png
 ```
+
+---
+
+## 🔥 训练时间参考（RTX 3060）
+
+| 模型 | 数据 | Epochs | 时间 |
+|------|------|--------|------|
+| YOLOv8n | 示例（100 张） | 10 | ~5 分钟 |
+| YOLOv8m | 示例（100 张） | 10 | ~8 分钟 |
+| YOLOv8m | 完整（1800 张） | 100 | ~3 小时 |
+| DINOv2-large | 完整（1800 张） | 20 | ~12 小时 |
 
 ---
 
