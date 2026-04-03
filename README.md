@@ -2,7 +2,7 @@
 
 **支持模型**：DINOv2 | YOLOv8 | YOLOv10 | YOLO-SE  
 **当前环境**：Python 3.13.5 | PyTorch 2.6.0+cu124 | CUDA 13.1 | RTX 3060 (12GB)  
-**平台**：✅ Web 检测平台 | ✅ 标注系统 | ✅ 训练代码
+**平台**：✅ Web 检测平台 | ✅ 标注系统 | ✅ 训练代码 | ✅ 示例数据集
 
 [![GitHub](https://img.shields.io/github/repo-size/taotie111/findWaterError)](https://github.com/taotie111/findWaterError)
 [![License](https://img.shields.io/github/license/taotie111/findWaterError)](https://github.com/taotie111/findWaterError/blob/master/LICENSE)
@@ -11,7 +11,7 @@
 
 ## 🌟 核心功能
 
-### 检测平台
+### 🤖 检测平台
 
 - ✅ **Web 界面**：Vue 3 + Element Plus
 - ✅ **单张检测**：上传图像实时检测
@@ -21,27 +21,76 @@
 - ✅ **统计分析**：检测数据多维分析
 - ✅ **模型管理**：热切换检测模型
 
-### 训练系统
-
-- ✅ **多模型训练**：DINOv2/YOLOv8/YOLOv10/YOLO-SE
-- ✅ **完整流程**：数据加载→训练→验证→导出
-- ✅ **可视化**：训练曲线、混淆矩阵、分类报告
-- ✅ **类别分析**：每个类别的准确率统计
-
-### 标注系统
+### 📝 标注系统
 
 - ✅ **多工具支持**：LabelImg/LabelMe/CVAT
 - ✅ **格式统一**：自动转换为 YOLO 格式
 - ✅ **质量检查**：完善的质检流程
 - ✅ **团队协作**：多人标注支持
 
+### 🎯 训练系统
+
+- ✅ **多模型训练**：DINOv2/YOLOv8/YOLOv10/YOLO-SE
+- ✅ **完整流程**：数据加载→训练→验证→导出
+- ✅ **可视化**：训练曲线、混淆矩阵、分类报告
+- ✅ **类别分析**：每个类别的准确率统计
+
+### 📊 数据集
+
+- ✅ **示例数据**：100 张漂浮物图像（已包含）
+- ✅ **完整数据**：1800+ 张漂浮物图像（本地）
+- ✅ **6 类体系**：5 类水体问题 + 漂浮物
+
 ---
 
 ## 🚀 快速开始
 
-### 🌐 检测平台（推荐）
+### 方式 1：使用示例数据（推荐新手）
 
-**一键启动完整平台**：
+**无需准备数据，立即开始训练！**
+
+```bash
+# 1. 克隆仓库
+git clone https://github.com/taotie111/findWaterError.git
+cd findWaterError
+
+# 2. 安装依赖
+pip install -r requirements.txt
+pip install ultralytics  # YOLO 训练
+
+# 3. 使用示例数据训练 YOLOv8
+cd sample_data
+yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=10 imgsz=640
+```
+
+**训练结果**：
+- ✅ 10 个 epoch 约 5-10 分钟
+- ✅ 模型保存在 `runs/detect/train/weights/best.pt`
+- ✅ 可立即看到训练曲线和评估结果
+
+---
+
+### 方式 2：使用完整数据（本地）
+
+**使用完整的 1800+ 张图像数据**
+
+```bash
+# 1. 确保数据已迁移到项目目录
+cd H:/code/01_image_center
+python src/scripts/migrate_data.py
+
+# 2. 训练 YOLOv8
+yolo task=detect mode=train model=yolov8m.pt data=data/annotations/data.yaml epochs=100
+
+# 3. 训练 DINOv2
+python src/scripts/train_dinov2.py
+```
+
+---
+
+### 方式 3：启动 Web 检测平台
+
+**完整的 Web 界面，支持图像上传和实时检测**
 
 ```bash
 # 终端 1 - 启动后端
@@ -51,64 +100,27 @@ start.bat
 # 终端 2 - 启动前端
 cd frontend
 npm install  # 首次运行
-start.bat
-```
+npm run dev
 
-访问：
-- **前端**：http://localhost:5173
-- **API 文档**：http://localhost:8000/docs
-
-### 1. 环境要求
-
-- **Python**: 3.13+
-- **Node.js**: 18+
-- **PyTorch**: 2.6.0+cu124
-- **CUDA**: 12.4+ (系统 CUDA 13.1 兼容)
-- **GPU**: 8GB+ 显存 (推荐 RTX 3060 及以上)
-
-### 2. 安装依赖
-
-```bash
-# 克隆仓库
-git clone https://github.com/taotie111/findWaterError.git
-cd findWaterError
-
-# 后端依赖
-cd backend
-pip install -r requirements.txt
-
-# 前端依赖
-cd ../frontend
-npm install
-```
-
-### 3. 验证安装
-
-```bash
-python -c "import torch; print(f'PyTorch: {torch.__version__}')"
+# 访问 http://localhost:5173
 ```
 
 ---
 
-## 📊 模型性能
+## 📊 类别体系
 
-### DINOv2 (当前最佳)
+本项目支持 **6 类水体问题**检测：
 
-| 指标 | 数值 | 备注 |
-|------|------|------|
-| **最佳验证准确率** | **68.96%** | 第 3 轮 |
-| 最终验证准确率 | 65.41% | 第 20 轮 |
-| 训练用时 | ~77 分钟/轮 | RTX 3060 |
+| ID | 类别名称 | 中文名称 | 说明 | 数据来源 |
+|----|---------|---------|------|---------|
+| 0 | garbage | 垃圾 | 水面漂浮垃圾 | 需标注 |
+| 1 | illegal_construction | 违建 | 违章建筑 | 需标注 |
+| 2 | illegal_discharge | 排污 | 违法排污 | 需标注 |
+| 3 | **floating_debris** | **漂浮物** | **塑料垃圾等** | ✅ 已有 1800+ 张 |
+| 4 | bank_damage | 岸坡破坏 | 岸坡植被破坏 | 需标注 |
+| 5 | other | 其他 | 其他问题 | 需标注 |
 
-### 各类别性能
-
-| 类别 | 准确率 | 样本数 | 状态 |
-|------|--------|--------|------|
-| 垃圾 | ~75% | 50 | ✅ 良好 |
-| 其他 | ~72% | 284 | ✅ 良好 |
-| 违建 | ~70% | 37 | ✅ 良好 |
-| 漂浮物 | ~50% | 2 | ⚠️ 样本不足 |
-| 排污 | ~43% | 7 | ⚠️ 样本不足 |
+> **注意**：漂浮物类别已整合塑料垃圾数据，其他 5 类需要手动标注。
 
 ---
 
@@ -116,49 +128,131 @@ python -c "import torch; print(f'PyTorch: {torch.__version__}')"
 
 ```
 findWaterError/
-├── backend/                           # 🐍 Python 后端（FastAPI）
+├── 📖 README.md                     # 项目说明（本文档）
+├── 📄 LICENSE                       # MIT 许可证
+├── 📦 requirements.txt              # Python 依赖
+├── .gitignore                       # Git 忽略配置
+│
+├── 🌐 backend/                      # Python 后端（FastAPI）
 │   ├── app/
-│   │   ├── main.py                   # FastAPI 应用
-│   │   ├── api/                      # API 路由
-│   │   ├── core/                     # 模型管理器
-│   │   ├── db/                       # 数据库
-│   │   └── utils/                    # 工具函数
-│   ├── config.yaml                   # 配置
-│   └── start.bat                     # 启动脚本
+│   │   ├── main.py                 # FastAPI 应用
+│   │   ├── api/                    # API 路由
+│   │   ├── core/                   # 模型管理器
+│   │   └── ...
+│   ├── config.yaml                 # 后端配置
+│   └── start.bat                   # 启动脚本
 │
-├── frontend/                          # 🎨 Vue 3 前端
+├── 🎨 frontend/                     # Vue 3 前端
 │   ├── src/
-│   │   ├── views/                    # 6 个页面
-│   │   ├── api/                      # API 封装
-│   │   └── router/                   # 路由
-│   └── start.bat                     # 启动脚本
+│   │   ├── views/                  # 页面视图
+│   │   ├── api/                    # API 封装
+│   │   └── router/                 # 路由
+│   ├── package.json                # Node 依赖
+│   └── start.bat                   # 启动脚本
 │
-├── configs/                           # 📋 模型配置
-├── src/                               # 🐍 训练代码
-├── data/annotations/                  # 📝 标注系统
-├── notebooks/                         # 📓 Jupyter
-└── docs/                              # 📖 文档
+├── 📊 sample_data/                  # 示例数据集（100 张）
+│   ├── images/                     # 示例图像
+│   ├── labels/                     # 示例标注
+│   └── data.yaml                   # 数据集配置
+│
+├── 💾 data/                         # 完整数据集（本地）
+│   ├── processed/                  # 完整图像（1800+ 张）
+│   ├── annotations/                # 标注配置
+│   └── README.md                   # 数据说明
+│
+├── 📝 configs/                      # 模型配置
+│   ├── dinov2_config.yaml
+│   ├── yolov8_config.yaml
+│   ├── yolov10_config.yaml
+│   └── yolo-se_config.yaml
+│
+├── 🐍 src/                          # 训练代码
+│   ├── scripts/
+│   │   ├── migrate_data.py         # 数据迁移
+│   │   ├── convert_labels.py       # 标注转换
+│   │   └── ...
+│   └── ...
+│
+├── 📓 notebooks/                    # Jupyter Notebooks
+│   └── dinov2_training_complete.ipynb
+│
+└── 📖 docs/                         # 文档
+    ├── PLATFORM_GUIDE.md           # 平台部署指南
+    ├── USAGE_GUIDE.md              # 使用指南
+    ├── ANNOTATION_GUIDE.md         # 标注指南
+    └── ...
 ```
 
 ---
 
-## 📖 文档
+## 🎯 训练指南
+
+### YOLOv8 训练
+
+#### 快速测试（示例数据）
+
+```bash
+cd sample_data
+yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=10
+```
+
+#### 完整训练（完整数据）
+
+```bash
+cd H:/code/01_image_center
+yolo task=detect mode=train model=yolov8m.pt data=data/annotations/data.yaml epochs=100
+```
+
+#### 自定义配置
+
+```bash
+yolo task=detect mode=train \
+  model=yolov8m.pt \
+  data=data/annotations/data.yaml \
+  epochs=100 \
+  imgsz=640 \
+  batch=16 \
+  device=0 \
+  project=runs/detect \
+  name=custom_train
+```
+
+### DINOv2 训练
+
+```bash
+# 使用 Jupyter Notebook（推荐）
+# 打开 notebooks/dinov2_training_complete.ipynb
+# 逐格运行
+
+# 或使用 Python 脚本
+python src/scripts/train_dinov2.py
+```
+
+---
+
+## 📖 文档索引
 
 ### 平台使用
 
-- [**使用指南**](docs/USAGE_GUIDE.md) - 完整使用教程
-- [**部署指南**](docs/PLATFORM_GUIDE.md) - 平台部署说明
+| 文档 | 说明 |
+|------|------|
+| [使用指南](docs/USAGE_GUIDE.md) | 完整使用教程 |
+| [部署指南](docs/PLATFORM_GUIDE.md) | 平台部署说明 |
 
 ### 标注系统
 
-- [**标注指南**](docs/ANNOTATION_GUIDE.md) - 6 类水体问题定义
-- [**多工具标注**](docs/MULTI_TOOL_ANNOTATION.md) - LabelImg/LabelMe/CVAT
-- [**标注工具使用**](docs/ANNOTATION_TOOLS.md) - 工具教程
+| 文档 | 说明 |
+|------|------|
+| [标注指南](docs/ANNOTATION_GUIDE.md) | 6 类水体问题定义 |
+| [标注工具](docs/ANNOTATION_TOOLS.md) | LabelImg/LabelMe/CVAT 教程 |
+| [多工具标注](docs/MULTI_TOOL_ANNOTATION.md) | 多工具协同指南 |
 
-### 环境配置
+### 数据说明
 
-- [**环境说明**](docs/ENVIRONMENT.md) - Python/CUDA/PyTorch 版本
-- [**配置总结**](docs/CONFIG_SUMMARY.md) - 配置文件说明
+| 文档 | 说明 |
+|------|------|
+| [数据集说明](data/README.md) | 数据来源和使用 |
+| [环境配置](docs/ENVIRONMENT.md) | Python/CUDA/PyTorch 版本 |
 
 ---
 
@@ -196,6 +290,24 @@ MIT License
 - **GitHub**: [@taotie111](https://github.com/taotie111)
 - **项目地址**: https://github.com/taotie111/findWaterError
 - **问题反馈**: [Issues](https://github.com/taotie111/findWaterError/issues)
+
+---
+
+## 🎉 快速测试
+
+**5 分钟快速验证**：
+
+```bash
+# 1. 克隆
+git clone https://github.com/taotie111/findWaterError.git
+cd findWaterError/sample_data
+
+# 2. 训练（10 个 epoch）
+yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=10
+
+# 3. 查看结果
+# 打开 runs/detect/train/results.png
+```
 
 ---
 
