@@ -1,0 +1,105 @@
+# ============================================================
+# DINOv2 模型配置文件
+# ============================================================
+# 模型：DINOv2 (facebook/dinov2-large)
+# 用途：水体问题识别（6 类）
+# 创建时间：2026-04-03
+# ============================================================
+
+# 模型配置
+model:
+  name: "dinov2"
+  backbone: "facebook/dinov2-large"  # 可选：dinov2-small, dinov2-base, dinov2-large
+  frozen_layers: 20  # 冻结前 N 层（总共 24 层）
+  embed_dim: 1024  # DINOv2-large 的特征维度
+  head_type: "mlp"  # 分类头类型：mlp / linear
+  
+# 训练配置
+training:
+  epochs: 20
+  batch_size: 1  # RTX 3060 建议设为 1
+  accumulation_steps: 8  # 梯度累积，等效 batch_size = 1 * 8 = 8
+  learning_rate: 1.0e-5
+  head_learning_rate: 1.0e-4  # 检测头学习率（通常更大）
+  weight_decay: 0.05
+  warmup_epochs: 2
+  scheduler: "cosine"  # 可选：cosine, step, linear
+  
+# 数据配置
+data:
+  data_root: "data/raw/images"
+  train_split: "data/processed/train"
+  val_split: "data/processed/val"
+  test_split: "data/processed/test"
+  image_size: 518  # DINOv2 输入尺寸
+  val_ratio: 0.2
+  num_workers: 0  # Windows 建议设为 0
+  
+# 数据增强
+augmentation:
+  random_horizontal_flip: 0.5
+  random_vertical_flip: 0.0
+  color_jitter:
+    brightness: 0.2
+    contrast: 0.2
+    saturation: 0.2
+    hue: 0.0
+  random_rotation: 0.0
+  random_resized_crop: 0.0
+  
+# 类别配置
+classes:
+  - "垃圾"
+  - "违建"
+  - "排污"
+  - "漂浮物"
+  - "岸坡破坏"
+  - "其他"
+  
+# 优化器配置
+optimizer:
+  name: "AdamW"
+  eps: 1.0e-8
+  betas: [0.9, 0.999]
+  
+# 混合精度训练
+amp:
+  enabled: true  # 启用 FP16 混合精度
+  scaler: true
+  
+# 梯度裁剪
+gradient_clip:
+  enabled: true
+  max_norm: 1.0
+  
+# 早停策略
+early_stopping:
+  enabled: false
+  patience: 5
+  min_delta: 0.001
+  
+# 检查点
+checkpoint:
+  save_every: 1  # 每 N 个 epoch 保存一次
+  save_best: true  # 保存最佳模型
+  save_last: true  # 保存最后一个模型
+  
+# 日志和可视化
+logging:
+  log_every: 10  # 每 N 个 batch 打印一次
+  tensorboard: true
+  wandb: false
+  
+# 输出目录
+output:
+  root_dir: "runs/dinov2"
+  experiment_name: "exp1"
+  
+# 设备配置
+device:
+  cuda: true
+  gpu_id: 0
+  num_gpus: 1
+  
+# 随机种子（确保可复现性）
+seed: 42

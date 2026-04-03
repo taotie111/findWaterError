@@ -1,0 +1,107 @@
+# ============================================================
+# YOLOv8 模型配置文件
+# ============================================================
+# 模型：YOLOv8 (Ultralytics)
+# 用途：水体问题检测（6 类）
+# 创建时间：2026-04-03
+# ============================================================
+
+# 模型配置
+model:
+  name: "yolov8"
+  variant: "yolov8m.pt"  # 可选：yolov8n.pt, yolov8s.pt, yolov8m.pt, yolov8l.pt, yolov8x.pt
+  pretrained: true  # 使用 COCO 预训练权重
+  task: "detect"  # 任务类型：detect / segment / classify
+  
+# 训练配置
+training:
+  epochs: 100
+  batch_size: 16  # 根据显存调整
+  imgsz: 640  # 输入图像尺寸
+  patience: 50  # 早停耐心值
+  warmup_epochs: 3.0
+  warmup_momentum: 0.9
+  warmup_bias_lr: 0.1
+  
+  # 学习率配置
+  lr0: 0.01  # 初始学习率
+  lrf: 0.01  # 最终学习率 (lr0 * lrf)
+  momentum: 0.937
+  weight_decay: 0.0005
+  
+  # 优化器
+  optimizer: "SGD"  # 可选：SGD, Adam, AdamW
+  
+  # 学习率调度器
+  scheduler: "linear"  # 可选：linear, cosine, ReduceLROnPlateau
+  
+# 数据配置
+data:
+  train: "data/processed/train"
+  val: "data/processed/val"
+  test: "data/processed/test"
+  nc: 6  # 类别数量
+  names:
+    - "垃圾"
+    - "违建"
+    - "排污"
+    - "漂浮物"
+    - "岸坡破坏"
+    - "其他"
+  
+# 数据增强 (Ultralytics 格式)
+augmentation:
+  # 几何变换
+  hsv_h: 0.015  # 色调增强
+  hsv_s: 0.7  # 饱和度增强
+  hsv_v: 0.4  # 亮度增强
+  degrees: 0.0  # 旋转角度
+  translate: 0.1  # 平移
+  scale: 0.5  # 缩放
+  shear: 0.0  # 剪切
+  perspective: 0.0  # 透视
+  flipud: 0.0  # 垂直翻转概率
+  fliplr: 0.5  # 水平翻转概率
+  mosaic: 1.0  # mosaic 增强概率
+  mixup: 0.0  # mixup 增强概率
+  copy_paste: 0.0  # copy-paste 增强概率
+  
+# 损失函数配置
+loss:
+  box: 7.5  # 边界框损失权重
+  cls: 0.5  # 分类损失权重
+  dfl: 1.5  # 分布焦点损失权重
+  
+# 训练技巧
+training_tricks:
+  amp: true  # 自动混合精度
+  half: false  # FP16 推理
+  multi_scale: false  # 多尺度训练
+  rect: false  # 矩形训练
+  close_mosaic: 10  # 最后 N 个 epoch 关闭 mosaic
+  
+# 验证配置
+validation:
+  val: true  # 训练期间验证
+  save_json: false  # 保存 COCO 格式结果
+  save_hybrid: false  # 保存标签和预测
+  
+# 检查点
+checkpoint:
+  save: true
+  save_period: -1  # -1 表示只保存最后和最佳
+  exist_ok: false  # 覆盖已有实验
+  
+# 设备配置
+device:
+  cuda: 0  # GPU ID，可选：0, 0,1,2,3 或 cpu
+  workers: 0  # 数据加载线程数
+  
+# 输出配置
+output:
+  project: "runs/yolov8"
+  name: "exp1"
+  verbose: true
+  
+# 随机种子
+seed: 42

@@ -1,0 +1,114 @@
+# ============================================================
+# YOLOv10 模型配置文件
+# ============================================================
+# 模型：YOLOv10 (Ultralytics 或 官方实现)
+# 用途：水体问题检测（6 类）
+# 创建时间：2026-04-03
+# ============================================================
+
+# 模型配置
+model:
+  name: "yolov10"
+  variant: "yolov10m.pt"  # 可选：yolov10n.pt, yolov10s.pt, yolov10m.pt, yolov10l.pt, yolov10x.pt
+  pretrained: true  # 使用 COCO 预训练权重
+  task: "detect"
+  
+  # NMS 配置 (YOLOv10 支持无 NMS 推理)
+  nms: true  # 是否使用 NMS
+  conf_thres: 0.25  # 置信度阈值
+  iou_thres: 0.45  # IoU 阈值
+  
+# 训练配置
+training:
+  epochs: 100
+  batch_size: 16
+  imgsz: 640
+  patience: 50
+  warmup_epochs: 3.0
+  warmup_momentum: 0.9
+  warmup_bias_lr: 0.1
+  
+  # 学习率配置
+  lr0: 0.01
+  lrf: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  
+  # 优化器
+  optimizer: "SGD"
+  
+  # 学习率调度器
+  scheduler: "cosine"  # YOLOv10 推荐使用 cosine
+  
+# 数据配置
+data:
+  train: "data/processed/train"
+  val: "data/processed/val"
+  test: "data/processed/test"
+  nc: 6  # 类别数量
+  names:
+    - "垃圾"
+    - "违建"
+    - "排污"
+    - "漂浮物"
+    - "岸坡破坏"
+    - "其他"
+  
+# 数据增强 (与 YOLOv8 类似)
+augmentation:
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 0.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  mosaic: 1.0
+  mixup: 0.0
+  copy_paste: 0.0
+  
+# 损失函数配置 (YOLOv10 使用双标签分配)
+loss:
+  box: 7.5
+  cls: 0.5
+  dfl: 1.5
+  
+  # 双标签分配
+  dual_label: true
+  
+# 训练技巧
+training_tricks:
+  amp: true  # 自动混合精度
+  half: false
+  multi_scale: false
+  rect: false
+  close_mosaic: 10
+  
+# 验证配置
+validation:
+  val: true
+  save_json: false
+  save_hybrid: false
+  
+# 检查点
+checkpoint:
+  save: true
+  save_period: -1
+  exist_ok: false
+  
+# 设备配置
+device:
+  cuda: 0
+  workers: 0
+  
+# 输出配置
+output:
+  project: "runs/yolov10"
+  name: "exp1"
+  verbose: true
+  
+# 随机种子
+seed: 42
