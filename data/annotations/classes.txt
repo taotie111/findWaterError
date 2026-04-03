@@ -1,5 +1,5 @@
-# 标注类别文件
-# 用于 LabelImg、LabelMe 等标注工具
+# 水体问题类别定义
+# 7 类：6 类水体问题 + 漂浮物（来自 H:/model 数据集）
 # 最后更新：2026-04-03
 
 0 garbage
@@ -8,3 +8,4 @@
 3 floating_debris
 4 bank_damage
 5 other
+6 plastic_waste

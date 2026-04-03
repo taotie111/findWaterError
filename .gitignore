@@ -78,4 +78,5 @@ events.out.tfevents.*
 # ✅ data/annotations/data.yaml - 数据集配置
 # ✅ data/annotations/annotation_template.md - 标注模板
 # ✅ data/annotations/quality_checklist.md - 质量检查表
+# ✅ sample_data/ - 示例数据（100 张，用于快速测试）
 # ============================================================
