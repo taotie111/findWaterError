@@ -1,25 +1,31 @@
 # ============================================================
-# DINOv2 水体问题识别 - Git Ignore 配置
+# DINOv2/YOLO 水体问题识别 - Git Ignore 配置
 # ============================================================
 
 # 数据集（~13.9 GB）
 data/
 
 # Excel 原始文件（~55 GB）
-excel/
+# excel/
 
-# 训练输出和模型权重（~1.2 GB）
+# 训练输出和模型权重（~1.2 GB+）
 runs/
+
+# 预训练权重
+weights/
 
 # 模型文件
 *.pth
 *.pt
 *.ckpt
+*.bin
+*.safetensors
 
 # Python 缓存
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
 
 # 虚拟环境
 venv/
@@ -36,3 +42,19 @@ Thumbs.db
 
 # Jupyter checkpoints
 .ipynb_checkpoints/
+
+# 训练日志
+*.log
+events.out.tfevents.*
+
+# ============================================================
+# 保留的内容
+# ============================================================
+# ✅ configs/ - 配置文件
+# ✅ src/ - 源代码
+# ✅ notebooks/ - Jupyter Notebooks
+# ✅ docs/ - 文档
+# ✅ tests/ - 测试
+# ✅ README.md
+# ✅ requirements.txt
+# ============================================================
