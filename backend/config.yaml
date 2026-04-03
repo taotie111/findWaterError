@@ -1,0 +1,131 @@
+# ============================================================
+# 水体问题检测平台 - 配置文件
+# ============================================================
+
+# 服务器配置
+server:
+  host: "0.0.0.0"
+  port: 8000
+  workers: 1  # GPU 环境建议设为 1
+  reload: true  # 开发模式
+
+# 模型配置
+model:
+  # 默认模型
+  default_model: "yolov8"
+  
+  # 可用模型列表
+  available_models:
+    - name: "dinov2"
+      type: "classification"
+      weights: "models/dinov2/best_model.pth"
+      config: "configs/dinov2_config.yaml"
+      enabled: true
+    
+    - name: "yolov8"
+      type: "detection"
+      weights: "yolov8m.pt"  # 自动下载
+      enabled: true
+    
+    - name: "yolov10"
+      type: "detection"
+      weights: "yolov10m.pt"  # 自动下载
+      enabled: true
+    
+    - name: "yolo-se"
+      type: "detection"
+      weights: "yolov8m.pt"  # 基于 YOLOv8
+      enabled: false  # 需要自定义实现
+
+# 推理配置
+inference:
+  # 置信度阈值
+  conf_threshold: 0.25
+  
+  # IoU 阈值（NMS）
+  iou_threshold: 0.45
+  
+  # 最大检测数量
+  max_detections: 1000
+  
+  # 图像尺寸
+  img_size: 640
+  
+  # 批处理大小
+  batch_size: 8
+  
+  # 使用半精度（FP16）
+  half_precision: true
+  
+  # GPU ID
+  gpu_id: 0
+
+# 文件存储配置
+storage:
+  # 上传目录
+  upload_dir: "uploads"
+  
+  # 输出目录
+  output_dir: "outputs"
+  
+  # 模型目录
+  models_dir: "models"
+  
+  # 最大上传大小（MB）
+  max_upload_size: 50
+  
+  # 允许的文件格式
+  allowed_extensions:
+    - ".jpg"
+    - ".jpeg"
+    - ".png"
+    - ".bmp"
+
+# 数据库配置
+database:
+  # SQLite（开发环境）
+  url: "sqlite:///./detections.db"
+  
+  # PostgreSQL（生产环境，可选）
+  # url: "postgresql://user:password@localhost:5432/findwater"
+  
+  # 连接池大小
+  pool_size: 10
+  
+  # 最大溢出连接数
+  max_overflow: 20
+
+# Redis 配置（可选，用于缓存和任务队列）
+redis:
+  enabled: false
+  host: "localhost"
+  port: 6379
+  db: 0
+  password: null
+
+# 日志配置
+logging:
+  level: "INFO"
+  format: "{time:YYYY-MM-DD HH:mm:ss} | {level} | {module} | {message}"
+  rotation: "10 MB"
+  retention: "7 days"
+  
+# CORS 配置（前端跨域）
+cors:
+  allow_origins:
+    - "http://localhost:3000"
+    - "http://localhost:5173"
+    - "http://127.0.0.1:3000"
+    - "http://127.0.0.1:5173"
+  allow_credentials: true
+  allow_methods:
+    - "*"
+  allow_headers:
+    - "*"
+
+# 认证配置（可选）
+auth:
+  enabled: false
+  secret_key: "your-secret-key-change-in-production"
+  algorithm: "HS256"
+  access_token_expire_minutes: 30
