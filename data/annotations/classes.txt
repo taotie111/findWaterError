@@ -1,0 +1,10 @@
+# 标注类别文件
+# 用于 LabelImg、LabelMe 等标注工具
+# 最后更新：2026-04-03
+
+0 garbage
+1 illegal_construction
+2 illegal_discharge
+3 floating_debris
+4 bank_damage
+5 other

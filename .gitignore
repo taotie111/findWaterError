@@ -2,8 +2,24 @@
 # DINOv2/YOLO 水体问题识别 - Git Ignore 配置
 # ============================================================
 
-# 数据集（~13.9 GB）
-data/
+# ============================================================
+# 排除：大型数据文件（不上传）
+# ============================================================
+# 原始图片数据（~13.9 GB）
+data/raw/
+data/images/
+
+# 处理后数据（训练集/验证集/测试集）
+data/processed/
+
+# 标注结果数据（不上传）
+data/annotations/yolo_format/
+data/annotations/labelme_jsons/
+data/annotations/voc_xml/
+data/annotations/coco_format/
+
+# Excel 原始文件（~55 GB）
+excel/
 
 # Excel 原始文件（~55 GB）
 # excel/
@@ -48,7 +64,7 @@ Thumbs.db
 events.out.tfevents.*
 
 # ============================================================
-# 保留的内容
+# 保留的内容（✅ 可以上传）
 # ============================================================
 # ✅ configs/ - 配置文件
 # ✅ src/ - 源代码
@@ -57,4 +73,9 @@ events.out.tfevents.*
 # ✅ tests/ - 测试
 # ✅ README.md
 # ✅ requirements.txt
+# ✅ data/annotations/README.md - 标注说明文档
+# ✅ data/annotations/classes.txt - 类别定义
+# ✅ data/annotations/data.yaml - 数据集配置
+# ✅ data/annotations/annotation_template.md - 标注模板
+# ✅ data/annotations/quality_checklist.md - 质量检查表
 # ============================================================

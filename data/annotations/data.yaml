@@ -1,0 +1,94 @@
+# 水体问题数据集配置文件
+# 用于 YOLO 系列模型训练
+# 最后更新：2026-04-03
+
+# ============================================================
+# 数据集路径
+# ============================================================
+# 训练集
+train: H:/code/01_image_center/data/processed/train
+
+# 验证集
+val: H:/code/01_image_center/data/processed/val
+
+# 测试集（可选）
+test: H:/code/01_image_center/data/processed/test
+
+# ============================================================
+# 类别配置
+# ============================================================
+# 类别数量
+nc: 6
+
+# 类别名称（按 ID 顺序）
+names:
+  - garbage            # 0: 垃圾
+  - illegal_construction  # 1: 违建
+  - illegal_discharge     # 2: 排污
+  - floating_debris       # 3: 漂浮物
+  - bank_damage           # 4: 岸坡破坏
+  - other                 # 5: 其他
+
+# ============================================================
+# 数据集统计信息（需要更新）
+# ============================================================
+# 总图像数
+total_images: 0
+
+# 各类别图像数（需要统计）
+class_stats:
+  garbage: 0
+  illegal_construction: 0
+  illegal_discharge: 0
+  floating_debris: 0
+  bank_damage: 0
+  other: 0
+
+# 训练集/验证集/测试集划分
+splits:
+  train: 0.7  # 70%
+  val: 0.2    # 20%
+  test: 0.1   # 10%
+
+# ============================================================
+# 标注信息
+# ============================================================
+# 标注格式：YOLO
+annotation_format: yolo
+
+# 标注文件位置
+annotations:
+  train: H:/code/01_image_center/data/annotations/yolo_format/train
+  val: H:/code/01_image_center/data/annotations/yolo_format/val
+  test: H:/code/01_image_center/data/annotations/yolo_format/test
+
+# 类别文件
+classes_file: H:/code/01_image_center/data/annotations/classes.txt
+
+# ============================================================
+# 数据增强配置（可选）
+# ============================================================
+augmentation:
+  # 几何变换
+  flipud: 0.0    # 垂直翻转概率
+  fliplr: 0.5    # 水平翻转概率
+  degrees: 0.0   # 旋转角度
+  translate: 0.1 # 平移
+  scale: 0.5     # 缩放
+  
+  # 颜色变换
+  hsv_h: 0.015   # 色调增强
+  hsv_s: 0.7     # 饱和度增强
+  hsv_v: 0.4     # 亮度增强
+  
+  # 高级增强
+  mosaic: 1.0    # mosaic 增强概率
+  mixup: 0.0     # mixup 增强概率
+
+# ============================================================
+# 备注
+# ============================================================
+# 1. 使用前请确保数据已按要求组织
+# 2. 更新数据集统计信息
+# 3. 根据实际需求调整数据增强参数
+# 4. 确保路径使用正斜杠 (/) 或双反斜杠 (\\)
