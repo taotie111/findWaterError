@@ -187,25 +187,58 @@ findWaterError/
 
 ## 🎯 训练指南
 
-### YOLOv8 训练
-
-#### 快速测试（示例数据）
+### 方式 1：统一训练入口（推荐）
 
 ```bash
-cd sample_data
-yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=10
+# 列出所有可用模型
+python src/scripts/train.py --list
+
+# 训练 YOLOv8（100 轮）
+python src/scripts/train.py --model yolov8 --epochs 100
+
+# 训练 YOLOv10
+python src/scripts/train.py --model yolov10
+
+# 训练 DINOv2
+python src/scripts/train.py --model dinov2
 ```
 
-#### 完整训练（完整数据）
+### 方式 2：使用 YOLO 脚本
 
 ```bash
-cd H:/code/01_image_center
+# 快速测试（示例数据）
+python src/scripts/train_yolo.py --model yolov8n --epochs 10 --data sample_data/data.yaml
+
+# 完整训练（完整数据）
+python src/scripts/train_yolo.py --model yolov8m --epochs 100 --data data/annotations/data.yaml
+
+# 自定义配置
+python src/scripts/train_yolo.py \
+  --model yolov8m \
+  --data data/annotations/data.yaml \
+  --epochs 100 \
+  --imgsz 640 \
+  --batch 16
+```
+
+### 方式 3：使用 DINOv2 脚本
+
+```bash
+# 使用 Jupyter Notebook（推荐）
+# 打开 notebooks/dinov2_training_complete.ipynb
+# 逐格运行
+
+# 或使用 Python 脚本
+python src/scripts/train_dinov2.py --epochs 20 --data data/processed
+```
+
+### 方式 4：使用 Ultralytics CLI
+
+```bash
+# YOLOv8 训练
 yolo task=detect mode=train model=yolov8m.pt data=data/annotations/data.yaml epochs=100
-```
 
-#### 自定义配置
-
-```bash
+# 自定义配置
 yolo task=detect mode=train \
   model=yolov8m.pt \
   data=data/annotations/data.yaml \
@@ -215,17 +248,6 @@ yolo task=detect mode=train \
   device=0 \
   project=runs/detect \
   name=custom_train
-```
-
-### DINOv2 训练
-
-```bash
-# 使用 Jupyter Notebook（推荐）
-# 打开 notebooks/dinov2_training_complete.ipynb
-# 逐格运行
-
-# 或使用 Python 脚本
-python src/scripts/train_dinov2.py
 ```
 
 ---
