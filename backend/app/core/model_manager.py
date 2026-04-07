@@ -31,7 +31,7 @@ class ModelManager:
         Args:
             config_path: 配置文件路径
         """
-        self.config_path = config_path or Path(__file__).parent.parent / "config.yaml"
+        self.config_path = config_path or Path(__file__).parent.parent.parent / "config.yaml"
         self.config = self._load_config()
         
         # 已加载的模型

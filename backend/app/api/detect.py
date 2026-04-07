@@ -40,7 +40,7 @@ async def detect_single(
             raise HTTPException(status_code=400, detail="请上传图像文件")
         
         # 保存上传图像
-        image_path = save_upload(image)
+        image_path = await save_upload(image)
         logger.info(f"图像已保存：{image_path}")
         
         # 推理检测
@@ -63,7 +63,7 @@ async def detect_single(
             "success": True,
             "record_id": record_id,
             "image_path": str(image_path),
-            "output_image": str(output_path),
+            "output_image": output_path.name,  # 只返回文件名
             "results": results,
             "total_objects": len(results),
             "model_used": model_name or model_manager.active_model
@@ -103,7 +103,7 @@ async def detect_batch(
                     continue
                 
                 # 保存图像
-                image_path = save_upload(image)
+                image_path = await save_upload(image)
                 
                 # 推理检测
                 results = model_manager.predict(str(image_path), model_name)
@@ -123,7 +123,7 @@ async def detect_batch(
                     "index": i,
                     "filename": image.filename,
                     "image_path": str(image_path),
-                    "output_image": str(output_path),
+                    "output_image": output_path.name,  # 只返回文件名
                     "results": results,
                     "record_id": record_id
                 })

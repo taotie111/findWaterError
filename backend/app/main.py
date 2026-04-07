@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-水体问题智能检测平台 - FastAPI 应用入口
+河湖问题智能检测中台 - FastAPI 应用入口
 """
 
 from fastapi import FastAPI
@@ -16,7 +16,7 @@ from app.db.database import init_db
 
 # 加载配置
 def load_config():
-    config_path = Path(__file__).parent / "config.yaml"
+    config_path = Path(__file__).parent.parent / "config.yaml"
     with open(config_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
@@ -24,8 +24,8 @@ config = load_config()
 
 # 创建 FastAPI 应用
 app = FastAPI(
-    title="水体问题智能检测平台",
-    description="基于深度学习的多模型水体问题检测系统",
+    title="河湖问题智能检测中台",
+    description="基于深度学习的多模型河湖问题检测系统",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -56,7 +56,7 @@ app.include_router(health.router, prefix="/api", tags=["健康检查"])
 async def startup_event():
     """应用启动时执行"""
     logger.info("=" * 80)
-    logger.info("水体问题智能检测平台 启动中...")
+    logger.info("河湖问题智能检测中台 启动中...")
     logger.info("=" * 80)
     
     # 初始化数据库
@@ -84,7 +84,7 @@ async def shutdown_event():
 @app.get("/")
 async def root():
     return {
-        "message": "欢迎使用水体问题智能检测平台",
+        "message": "欢迎使用河湖问题智能检测中台",
         "version": "1.0.0",
         "docs": "/docs"
     }

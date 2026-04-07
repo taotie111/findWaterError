@@ -12,7 +12,7 @@ server:
 # 模型配置
 model:
   # 默认模型
-  default_model: "yolov8"
+  default_model: "yolo_lite"
   
   # 可用模型列表
   available_models:
@@ -20,6 +20,11 @@ model:
       type: "classification"
       weights: "models/dinov2/best_model.pth"
       config: "configs/dinov2_config.yaml"
+      enabled: true
+    
+    - name: "yolo_lite"
+      type: "detection"
+      weights: "H:/model/LakeFloatingPlasticWasteDetectionDataset/YOLO_Models/plastic_waste_detection_lite/weights/best.pt"
       enabled: true
     
     - name: "yolov8"

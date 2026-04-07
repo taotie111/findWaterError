@@ -3,7 +3,7 @@
     <el-card class="welcome-card">
       <template #header>
         <div class="card-header">
-          <h2>🌊 欢迎使用水体问题智能检测平台</h2>
+          <h2>🌊 欢迎使用河湖问题智能检测中台</h2>
         </div>
       </template>
       
@@ -92,8 +92,9 @@ onMounted(async () => {
 <style scoped>
 .home {
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+  margin: 30px auto 0;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
 .welcome-card {
@@ -106,13 +107,24 @@ onMounted(async () => {
 }
 
 .welcome-content {
-  padding: 20px 0;
+  padding: 10px 0;
 }
 
 .feature-card {
   text-align: center;
-  margin-bottom: 20px;
+  padding: 20px 10px;
   transition: transform 0.3s;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+:deep(.el-card__body) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .feature-card:hover {
@@ -120,36 +132,39 @@ onMounted(async () => {
 }
 
 .feature-icon {
-  font-size: 48px;
-  margin-bottom: 15px;
+  font-size: 40px;
+  margin-bottom: 10px;
 }
 
 .feature-card h3 {
-  margin: 10px 0;
+  margin: 8px 0;
   color: #333;
+  font-size: 16px;
 }
 
 .feature-card p {
   color: #666;
-  line-height: 1.6;
+  line-height: 1.4;
+  font-size: 13px;
+  margin: 0;
 }
 
 .quick-actions {
-  margin: 40px 0;
+  margin: 30px 0;
   text-align: center;
 }
 
 .quick-actions h3 {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   color: #333;
 }
 
 .system-status {
-  margin-top: 40px;
+  margin-top: 30px;
 }
 
 .system-status h3 {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
   color: #333;
 }
 </style>

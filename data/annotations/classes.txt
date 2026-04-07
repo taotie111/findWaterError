@@ -1,10 +1,10 @@
 # 水体问题类别定义
-# 6 类：5 类水体问题 + 漂浮物（合并塑料垃圾）
+# 6 类：漂浮物作为第 0 类（因为已有 1800 张标注数据）
 # 最后更新：2026-04-03
 
-0 garbage
-1 illegal_construction
-2 illegal_discharge
-3 floating_debris
+0 floating_debris
+1 garbage
+2 illegal_construction
+3 illegal_discharge
 4 bank_damage
 5 other

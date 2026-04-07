@@ -253,6 +253,51 @@ yolo task=detect mode=predict model=runs/detect/train/weights/best.pt source=dat
 
 ---
 
+## 📈 训练结果（2026-04-04）
+
+### YOLOv10m 完整数据训练结果
+
+**训练配置**：
+| 参数 | 值 |
+|------|-----|
+| 模型 | YOLOv10m |
+| 数据集 | 1801 张图像 |
+| 训练轮数 | 50 epochs |
+| 批次大小 | 16 |
+| 图像尺寸 | 640 |
+| 设备 | RTX 3060 (12GB) |
+
+**最终性能**：
+
+| 指标 | 值 |
+|------|-----|
+| mAP50 | **80.9%** |
+| mAP50-95 | **46.7%** |
+| Precision | 78.2% |
+| Recall | 74.0% |
+
+**性能对比**：
+
+| 数据集 | mAP50 | mAP50-95 | 提升 |
+|--------|-------|----------|------|
+| 示例数据 (100 张) | 17.1% | 8.05% | - |
+| 完整数据 (1801 张) | 80.9% | 46.7% | **4.7x / 5.8x** |
+
+**最佳模型**：
+```
+runs/detect/runs/detect/yolov10_full_final/weights/best.pt (66.6MB)
+```
+
+**已训练模型存档**：
+| 模型 | 路径 | 大小 |
+|------|------|------|
+| YOLOv10m (best) | `runs/detect/runs/detect/yolov10_full_final/weights/best.pt` | 66.6MB |
+| YOLOv10m (last) | `runs/detect/runs/detect/yolov10_full_final/weights/last.pt` | 66.6MB |
+| YOLOv10m (50ep) | `runs/detect/runs/detect/yolov10_full2/weights/best.pt` | 66.6MB |
+| DINOv2 | `runs/dinov2/exp1/best_model.pth` | - |
+
+---
+
 ## 📁 项目结构
 
 ```
@@ -408,5 +453,5 @@ yolo task=detect mode=train model=yolov8n.pt data=data.yaml epochs=10
 
 ---
 
-**最后更新**：2026-04-03  
+**最后更新**：2026-04-07  
 **维护者**：taotie111

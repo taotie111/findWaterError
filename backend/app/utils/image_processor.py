@@ -83,7 +83,7 @@ def draw_detections(image_path: str, detections: List[Dict], output_path: str = 
         confidence = det['confidence']
         
         # 获取颜色
-        color = colors.get(class_name, (255, 255, 255))
+        color = colors.get(class_name, (255, 0, 0))  # 默认红色
         
         # 绘制边界框
         x_min, y_min = bbox['x_min'], bbox['y_min']

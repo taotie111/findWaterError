@@ -49,6 +49,7 @@ onMounted(() => {
 
 <style scoped>
 .history-page {
-  padding: 20px;
+  padding: 20px 0;
+  box-sizing: border-box;
 }
 </style>

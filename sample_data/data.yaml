@@ -9,10 +9,10 @@ test: H:/code/01_image_center/sample_data/images
 # 类别配置
 nc: 6
 names:
-  - garbage            # 0: 垃圾
-  - illegal_construction  # 1: 违建
-  - illegal_discharge     # 2: 排污
-  - floating_debris       # 3: 漂浮物（包含塑料垃圾）
+  - floating_debris       # 0: 漂浮物（包含塑料垃圾）
+  - garbage            # 1: 垃圾
+  - illegal_construction  # 2: 违建
+  - illegal_discharge     # 3: 排污
   - bank_damage           # 4: 岸坡破坏
   - other                 # 5: 其他
 

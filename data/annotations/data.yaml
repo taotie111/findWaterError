@@ -16,15 +16,15 @@ test: H:/code/01_image_center/data/processed/test
 # ============================================================
 # 类别配置
 # ============================================================
-# 类别数量：6 类（5 类水体问题 + 漂浮物）
+# 类别数量：6 类（漂浮物作为第 0 类）
 nc: 6
 
 # 类别名称（按 ID 顺序）
 names:
-  - garbage            # 0: 垃圾
-  - illegal_construction  # 1: 违建
-  - illegal_discharge     # 2: 排污
-  - floating_debris       # 3: 漂浮物（包含塑料垃圾）
+  - floating_debris       # 0: 漂浮物（包含塑料垃圾，已有 1800+ 张）
+  - garbage            # 1: 垃圾
+  - illegal_construction  # 2: 违建
+  - illegal_discharge     # 3: 排污
   - bank_damage           # 4: 岸坡破坏
   - other                 # 5: 其他
 
@@ -32,8 +32,7 @@ names:
 # 数据来源说明
 # ============================================================
 # 1. 漂浮物数据来自：H:/model/LakeFloatingPlasticWasteDetectionDataset/
-#    - 包含塑料垃圾等水面漂浮物
-#    - 已合并为 floating_debris 类别
+#    - 类别 ID 为 0（已整合）
 # 2. 其他 5 类水体问题数据需要手动标注
 # 3. 示例数据（100 张）在：sample_data/ 目录，可用于 Git 测试
 

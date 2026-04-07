@@ -15,6 +15,7 @@
             :on-change="handleFileChange"
             :on-remove="handleFileRemove"
             :limit="1"
+            :on-exceed="handleExceed"
             accept="image/*"
           >
             <el-icon class="el-icon--upload"><upload-filled /></el-icon>
@@ -136,6 +137,10 @@ const handleFileChange = (file) => {
   imageUrl.value = URL.createObjectURL(file.raw)
   detectionResult.value = null
   resultImageUrl.value = null
+  // 清除之前的检测结果图片
+  if (uploadRef.value) {
+    uploadRef.value.clearFiles()
+  }
 }
 
 const handleFileRemove = () => {
@@ -143,6 +148,15 @@ const handleFileRemove = () => {
   imageUrl.value = null
   detectionResult.value = null
   resultImageUrl.value = null
+}
+
+// 超出文件数量限制
+const handleExceed = () => {
+  // 清除旧文件
+  if (uploadRef.value) {
+    uploadRef.value.clearFiles()
+  }
+  ElMessage.warning('请先清除当前图片再上传新图片')
 }
 
 // 执行检测
@@ -187,7 +201,8 @@ loadModels()
 
 <style scoped>
 .detect-page {
-  padding: 20px;
+  padding: 20px 0;
+  box-sizing: border-box;
 }
 
 .empty-result {
